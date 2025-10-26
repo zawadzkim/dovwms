@@ -1,23 +1,27 @@
 name: Documentation
+
 on:
   push:
     branches:
-      - main
       - master
     paths:
       - "docs/**"
       - "mkdocs.yml"
       - "dovwms/**/*.py"
+  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+    
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - name: Checkout code
@@ -29,13 +33,15 @@ jobs:
           python-version: "3.11"
 
       - name: Install Poetry
-        run: curl -sSL https://install.python-poetry.org | python3 -
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: Install dependencies
         run: poetry install --with docs
 
       - name: Setup Pages
-        uses: actions/configure-pages@v4
+        uses: actions/configure-pages@v5  # Updated to v5
 
       - name: Build site
         run: poetry run mkdocs build
