@@ -88,12 +88,10 @@ Notes
 
 ## Testing
 
-Run the test suite with pytest. Development dependencies include pytest.
+Run the test suite with pytest (excl. integration tests). Development dependencies include pytest.
 
 ```bash
 make test
-# or
-pytest -q
 ```
 
 Integration tests that require network access are marked `integration` and

@@ -7,31 +7,30 @@ repository = "https://github.com/zawadzkim/dovwms"
 documentation = "https://zawadzkim.github.io/dovwms/"
 readme = "README.md"
 packages = [
-  {include = "dovwms"}
+    {include = "dovwms"},
+    {include = "py.typed"}
 ]
+dynamic = ["dependencies", "requires-python", "version"]
 
-requires-python = ">=3.11,<4.0"
-dependencies = [
-    "owslib>=0.34.1",
-    "shapely>=2.1.2",
-    "pre-commit (>=4.3.0,<5.0.0)",
-]
+[tool.poetry.dependencies]
+python = ">=3.11,<4.0"
+owslib = "^0.34.1"
+shapely = "^2.1.2"
 
-[project.optional-dependencies]
-dev = [
-    "pytest>=7.2.0",
-    "deptry>=0.16.2",
-    "mypy>=1.5.1",
-    "pre-commit>=3.4.0",
-    "tox>=4.11.1",
-    "types-shapely (>=2.1.0.20250917,<3.0.0.0)",
-]
-docs = [
-    "mkdocs>=1.4.2",
-    "mkdocs-material>=9.2.7",
-    "mkdocs-include-markdown-plugin>=7.2.0",
-    "mkdocstrings-python>=1.18.2",
-]
+[tool.poetry.group.dev.dependencies]
+pytest = ">=7.2.0"
+deptry = ">=0.16.2"
+mypy = ">=1.5.1"
+pre-commit = ">=4.3.0"
+tox = ">=4.11.1"
+types-shapely = ">=2.1.0.20250917,<3.0.0.0"
+pytest-cov = "^7.0.0"
+
+[tool.poetry.group.docs.dependencies]
+mkdocs = ">=1.4.2"
+mkdocs-material = ">=9.2.7"
+mkdocs-include-markdown-plugin = ">=7.2.0"
+mkdocstrings-python = ">=1.18.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
