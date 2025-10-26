@@ -7,14 +7,14 @@ repository = "https://github.com/zawadzkim/dovwms"
 documentation = "https://zawadzkim.github.io/dovwms/"
 readme = "README.md"
 packages = [
-  {include = "dovwms"}
+  {include = "dovwms"},
+  {include = "py.typed"}
 ]
 
 requires-python = ">=3.11,<4.0"
 dependencies = [
     "owslib>=0.34.1",
     "shapely>=2.1.2",
-    "pre-commit (>=4.3.0,<5.0.0)",
 ]
 
 [project.optional-dependencies]
@@ -22,7 +22,7 @@ dev = [
     "pytest>=7.2.0",
     "deptry>=0.16.2",
     "mypy>=1.5.1",
-    "pre-commit>=3.4.0",
+    "pre-commit>=4.3.0",
     "tox>=4.11.1",
     "types-shapely (>=2.1.0.20250917,<3.0.0.0)",
 ]
