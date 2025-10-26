@@ -1,4 +1,4 @@
-name: Build GitHub Pages
+name: Documentation
 on:
   push:
     branches:
@@ -6,6 +6,8 @@ on:
       - master
     paths:
       - "docs/**"
+      - "mkdocs.yml"
+      - "dovwms/**/*.py"
 
 permissions:
   contents: write
@@ -13,47 +15,36 @@ permissions:
   id-token: write
 
 jobs:
-  build_mkdocs:
+  deploy:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' # Only deploy from main branch
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          submodules: "recursive"
-          fetch-depth: 0
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: 3.11
+          python-version: "3.11"
+
       - name: Install Poetry
         run: curl -sSL https://install.python-poetry.org | python3 -
 
       - name: Install dependencies
-        run: poetry install
+        run: poetry install --with docs
 
-      - name: Build MkDocs site
-        run: poetry run mkdocs gh-deploy --config-file mkdocs.yml --force
-
-  deploy_mkdocs:
-    needs: build_mkdocs
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: "recursive"
-          ref: gh-pages
       - name: Setup Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v4
+
+      - name: Build site
+        run: poetry run mkdocs build
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "."
+          path: site
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

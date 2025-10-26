@@ -17,9 +17,7 @@ plugins:
   - mkdocstrings:
       handlers:
         python:
-          setup_commands:
-            - import sys
-            - sys.path.append('../')
+          paths: [..] # This tells mkdocstrings to look in the parent directory
           options:
             show_submodules: true
             show_symbol_type_heading: true
