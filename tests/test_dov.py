@@ -30,7 +30,7 @@ def test_list_wms_layers_only_soil(mock_list, dov_client):
     layers = dov_client.list_wms_layers(only_soil=True)
 
     assert len(layers) == 2
-    assert all("bodem" in name.lower() for name in layers.keys())
+    assert all("bodem" in name.lower() for name in layers)
     mock_list.assert_called_once()
 
 
@@ -191,7 +191,7 @@ def test_fetch_profile_custom_crs(dov_client, sample_location):
     dov_client.wms.getfeatureinfo.return_value = mock_response
     dov_client.parse_feature_info = Mock(return_value={"layers": []})
 
-    profile = dov_client.fetch_profile(sample_location, crs="EPSG:4326")
+    dov_client.fetch_profile(sample_location, crs="EPSG:4326")
 
     # Verify CRS was passed to getfeatureinfo
     call_kwargs = dov_client.wms.getfeatureinfo.call_args[1]

@@ -6,7 +6,7 @@
 
 import logging
 from abc import ABC, abstractmethod
-from typing import Any, Callable, Dict, Optional
+from typing import Any, Callable, Optional
 
 from owslib.wms import WebMapService
 
@@ -55,12 +55,13 @@ class WMSClient(ABC):
         try:
             self._wms = WebMapService(wms_url, version=self.wms_version)
             logger.info("Connected to WMS service %s (%d layers available)", wms_url, len(self._wms.contents))
-            return self._wms
         except Exception:
             logger.exception("Failed to connect to WMS service at %s", wms_url)
+        else:
+            return self._wms
             raise
 
-    def list_wms_layers(self, filter_func: Optional[Callable[[str, str], bool]] = None) -> Dict[str, str]:
+    def list_wms_layers(self, filter_func: Optional[Callable[[str, str], bool]] = None) -> dict[str, str]:
         """List available WMS layers from the service, optionally filtered.
 
         Arguments:
@@ -89,7 +90,7 @@ class WMSClient(ABC):
         return layer_name in self.wms.contents
 
     @abstractmethod
-    def parse_feature_info(self, content: str, **kwargs: Any) -> Dict[str, Any]:
+    def parse_feature_info(self, content: str, **kwargs: Any) -> dict[str, Any]:
         """Parse GetFeatureInfo response content.
 
         This method should be implemented by subclasses to handle

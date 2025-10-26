@@ -2,7 +2,7 @@
 
 import json
 import logging
-from typing import Any, Callable, Dict, Optional
+from typing import Any, Callable, Optional
 
 from shapely.geometry import Point
 
@@ -23,7 +23,7 @@ class DOVClient(WMSClient):
         """
         super().__init__(base_url="https://www.dov.vlaanderen.be/geoserver")
 
-    def list_wms_layers(self, filter_func: Optional[Callable[[str, str], bool]] = None) -> Dict[str, str]:
+    def list_wms_layers(self, filter_func: Optional[Callable[[str, str], bool]] = None) -> dict[str, str]:
         """List available WMS layers from the DOV service.
 
         Arguments:
@@ -42,7 +42,7 @@ class DOVClient(WMSClient):
 
         return super().list_wms_layers(filter_func=soil_filter)
 
-    def parse_feature_info(self, content: str, **kwargs: Any) -> Dict[str, Any]:
+    def parse_feature_info(self, content: str, **kwargs: Any) -> dict[str, Any]:
         """Parse GetFeatureInfo response from DOV WMS.
 
         The parsing method depends on the content type and query type:
@@ -66,7 +66,7 @@ class DOVClient(WMSClient):
 
         return {"content": content}
 
-    def _parse_texture_response(self, data: Any) -> Dict[str, Any]:
+    def _parse_texture_response(self, data: Any) -> dict[str, Any]:
         """Parse the WMS GetFeatureInfo response to extract texture fractions.
 
         Always returns a dictionary with a single key "layers" containing a
@@ -90,7 +90,7 @@ class DOVClient(WMSClient):
         properties = [feature.get("properties") for feature in features]
 
         # create Layer objects for each of the profiles
-        depth_keys = [k for k in properties[0].keys() if not k.endswith("_betrouwbaarheid")]
+        depth_keys = [k for k in properties[0] if not k.endswith("_betrouwbaarheid")]
 
         # Map Dutch depth notation to layer info
         depth_mapping = {
@@ -147,7 +147,7 @@ class DOVClient(WMSClient):
 
     def fetch_profile(
         self, location: Point, fetch_elevation: bool = False, crs: str = "EPSG:31370"
-    ) -> Optional[Dict[str, Any]]:
+    ) -> Optional[dict[str, Any]]:
         """Fetch soil texture information from the DOV WMS at a specific location.
 
         This method queries the DOV WMS service for clay, silt, and sand content
@@ -196,18 +196,16 @@ class DOVClient(WMSClient):
             if fetch_elevation:
                 elevation = get_elevation(location, crs)
                 result["elevation"] = elevation
-
-            return result
-
         except Exception:
-            # Log full traceback for debugging and re-raise or return None as before
-            logger.exception("Error fetching texture data")
+            logger.exception("Failed to fetch profile")
             return None
+        else:
+            return result
 
 
 def get_profile_from_dov(
     x: float, y: float, crs: str = "EPSG:31370", fetch_elevation: bool = True, profile_name: Optional[str] = None
-) -> Optional[Dict[str, Any]]:
+) -> Optional[dict[str, Any]]:
     """Convenience function to fetch a soil profile from DOV at given coordinates.
 
     This function handles all the necessary client setup and coordinate conversion
@@ -219,7 +217,7 @@ def get_profile_from_dov(
         y: Y-coordinate in the specified CRS (default Lambert72)
         profile_name: Optional name for the profile. If None, will use coordinates
         crs: Coordinate reference system of the input coordinates
-        elevation: elevation data
+        fetch_elevation: elevation data
 
     Returns:
         SoilProfile object with texture and optional elevation data,
@@ -244,9 +242,10 @@ def get_profile_from_dov(
 
         # Fetch profile. Use the public DOVClient API: (location, fetch_elevation, crs)
         profile = client.fetch_profile(location, fetch_elevation=fetch_elevation, crs=crs)
-
-        return profile
-
     except Exception:
+        logger.exception("Failed to get profile from DOV")
+        return None
+    else:
+        return profile
         logger.exception("Error fetching profile from DOV")
         return None

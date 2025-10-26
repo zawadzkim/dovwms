@@ -1,7 +1,7 @@
 # mypy: disable-error-code="import-untyped"
 
 import logging
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from shapely.geometry import Point
 
@@ -16,7 +16,7 @@ class GeopuntClient(WMSClient):
     def __init__(self) -> None:
         super().__init__(base_url="https://geo.api.vlaanderen.be/DHMV")
 
-    def parse_feature_info(self, content: str, **kwargs: Any) -> Dict[str, Any]:
+    def parse_feature_info(self, content: str, **kwargs: Any) -> dict[str, Any]:
         """Parse GetFeatureInfo response from Geopunt WMS.
 
         The parsing method depends on the content type and query type:
@@ -63,7 +63,7 @@ class GeopuntClient(WMSClient):
 
     def fetch_elevation(
         self, location: Point, crs: str = "EPSG:31370", layer_name: str = "DHMVII_DTM_1m"
-    ) -> Optional[Dict[str, Any]]:
+    ) -> Optional[dict[str, Any]]:
         """Fetch elevation data from the Geopunt WMS at a specific location.
 
         Args:
@@ -107,17 +107,16 @@ class GeopuntClient(WMSClient):
 
             if elevation is not None:
                 logger.info("Fetched elevation from Geopunt API")
-
-            return elevation
-
         except Exception:
-            logger.exception("Error fetching elevation")
+            logger.exception("Failed to fetch elevation from Geopunt API")
             return None
+        else:
+            return elevation
 
 
 def get_elevation(
     location: Point, crs: str = "EPSG:31370", layer_name: str = "DHMVII_DTM_1m"
-) -> Optional[Dict[str, Any]]:
+) -> Optional[dict[str, Any]]:
     """Convenience wrapper to fetch elevation using the GeopuntClient.
 
     This helper creates a GeopuntClient, requests the elevation for the
