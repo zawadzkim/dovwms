@@ -4,9 +4,10 @@
 
 """Base classes for API clients."""
 
-from abc import ABC, abstractmethod
-from typing import Any, Callable, Dict, Optional, Union
 import logging
+from abc import ABC, abstractmethod
+from typing import Any, Callable, Dict, Optional
+
 from owslib.wms import WebMapService
 
 logger = logging.getLogger(__name__)
@@ -14,8 +15,8 @@ logger = logging.getLogger(__name__)
 
 class WMSClient(ABC):
     """Abstract base class for WMS service clients."""
-    
-    def __init__(self, base_url: str, wms_version: str = '1.3.0'):
+
+    def __init__(self, base_url: str, wms_version: str = "1.3.0"):
         """Initialize the WMS client.
 
         The reason for the property and a setter implementation is to allow lazy connection
@@ -39,7 +40,7 @@ class WMSClient(ABC):
     @wms.setter
     def wms(self, value: WebMapService) -> None:
         """Set the WMS connection.
-        
+
         The setter allows injecting a mock WMS for testing.
         """
         self._wms = value
@@ -50,7 +51,7 @@ class WMSClient(ABC):
         Returns:
             The connected WebMapService instance.
         """
-        wms_url = self.base_url if self.base_url.endswith('/wms') else f"{self.base_url}/wms"
+        wms_url = self.base_url if self.base_url.endswith("/wms") else f"{self.base_url}/wms"
         try:
             self._wms = WebMapService(wms_url, version=self.wms_version)
             logger.info("Connected to WMS service %s (%d layers available)", wms_url, len(self._wms.contents))
@@ -61,16 +62,16 @@ class WMSClient(ABC):
 
     def list_wms_layers(self, filter_func: Optional[Callable[[str, str], bool]] = None) -> Dict[str, str]:
         """List available WMS layers from the service, optionally filtered.
-        
+
         Arguments:
             filter_func: Optional function to filter layers. Takes layer name and title
                        as arguments and returns bool.
-        
+
         Returns:
             Dictionary of layer names and titles
         """
         layers = {
-            name: layer.title 
+            name: layer.title
             for name, layer in self.wms.contents.items()
             if filter_func is None or filter_func(name, layer.title)
         }
@@ -81,7 +82,7 @@ class WMSClient(ABC):
 
         Arguments:
             layer_name: Name of the layer to check
-            
+
         Returns:
             True if layer exists, False otherwise
         """
@@ -90,7 +91,7 @@ class WMSClient(ABC):
     @abstractmethod
     def parse_feature_info(self, content: str, **kwargs: Any) -> Dict[str, Any]:
         """Parse GetFeatureInfo response content.
-        
+
         This method should be implemented by subclasses to handle
         service-specific response formats. Preferably, in these method, each data
         type (e.g., soil texture, elevation) gets its own parsing logic in a dedicated
@@ -99,7 +100,7 @@ class WMSClient(ABC):
         Arguments:
             content: Raw response content as string
             **kwargs: Additional parsing parameters
-            
+
         Returns:
             Parsed content in appropriate format
         """

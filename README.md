@@ -81,9 +81,10 @@ elev = g.fetch_elevation(pt)
 ```
 
 Notes
+
 - `fetch_profile` returns a dict with a `layers` key (list of layer dicts).
 - Use the module-level loggers to enable/inspect runtime information; the
-	library does not configure logging handlers by default.
+  library does not configure logging handlers by default.
 
 ## Testing
 
