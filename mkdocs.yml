@@ -59,6 +59,10 @@ extra:
   version:
     provider: mike
     default: latest
+  alternate:
+    - name: latest
+      link: /dovwms/latest/
+      lang: en
 
 markdown_extensions:
   - toc:
