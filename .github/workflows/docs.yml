@@ -1,0 +1,15 @@
+name: Documentation
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+    paths:
+      - "docs/**"
+      - "mkdocs.yml"
+      - "dovwms/**/*.py"
+
+jobs:
+  docs:
+    uses: zawadzkim/shared-gh-workflows/.github/workflows/mkdocs-deploy.yml@main

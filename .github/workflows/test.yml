@@ -1,0 +1,20 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, dev ]
+    paths:
+      - "dovwms/**"
+      - "tests/**"
+      - "pyproject.toml"
+      - "poetry.lock"
+  pull_request:
+    paths:
+      - "dovwms/**"
+      - "tests/**"
+      - "pyproject.toml"
+      - "poetry.lock"
+
+jobs:
+  test:
+    uses: zawadzkim/shared-gh-workflows/.github/workflows/python-test.yml@main
