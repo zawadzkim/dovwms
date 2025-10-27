@@ -59,6 +59,7 @@ extra:
   version:
     provider: mike
     default: latest
+    command: mike serve
 
 markdown_extensions:
   - toc:
