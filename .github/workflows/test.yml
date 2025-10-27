@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main, dev]
+    paths:
+      - "dovwms/**"
+      - "tests/**"
+      - "pyproject.toml"
+      - "poetry.lock"
+  pull_request:
+    paths:
+      - "dovwms/**"
+      - "tests/**"
+      - "pyproject.toml"
+      - "poetry.lock"
+  workflow_dispatch:
+    inputs:
+      python-version:
+        description: "Python version to test with"
+        type: choice
+        options:
+          - "3.11"
+          - "3.12"
+        default: "3.11"
+        required: true
+
+jobs:
+  test:
+    uses: zawadzkim/shared-gh-workflows/.github/workflows/python-test.yml@main

@@ -1,0 +1,30 @@
+name: Documentation
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - dev
+    paths:
+      - "docs/**"
+      - "mkdocs.yml"
+      - "dovwms/**/*.py"
+  workflow_dispatch:
+    inputs:
+      force_deploy:
+        description: "Force deploy to GitHub Pages"
+        type: boolean
+        default: false
+        required: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  docs:
+    uses: zawadzkim/shared-gh-workflows/.github/workflows/mkdocs-deploy.yml@main
+    with:
+      deploy: ${{ github.ref == 'refs/heads/main' }}

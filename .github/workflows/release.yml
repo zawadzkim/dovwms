@@ -1,0 +1,32 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+      - master
+    paths-ignore:
+      - "docs/**"
+  workflow_dispatch:
+    inputs:
+      version_bump:
+        description: "Version bump type"
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+        default: "patch"
+        required: true
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  evaluate_release:
+    uses: zawadzkim/shared-gh-workflows/.github/workflows/python-release.yml@main
+    with:
+      publish: ${{ github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' }}
