@@ -1,2 +1,2 @@
 {% include "../CONTRIBUTING.md" %}
-Thanks!
+Thanks a lot!
