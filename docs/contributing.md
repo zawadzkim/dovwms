@@ -1,1 +1,1 @@
-{% include "../CONTRIBURING.md" %}
+{% include "../CONTRIBUTING.md" %}

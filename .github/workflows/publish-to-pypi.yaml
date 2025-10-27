@@ -19,22 +19,22 @@ jobs:
     outputs:
       version: ${{ steps.extract_version.outputs.version }}
       should_release: ${{ steps.check_tag.outputs.should_release }}
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
+
       - name: Install Poetry
         run: curl -sSL https://install.python-poetry.org | python3 -
-      
+
       - name: Extract version
         id: extract_version
         run: |
           version=$(poetry version -s)
           echo "version=$version" >> $GITHUB_OUTPUT
-      
+
       - name: Check if tag exists
         id: check_tag
         run: |
@@ -54,18 +54,18 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      
+
       - name: Install Poetry
         run: curl -sSL https://install.python-poetry.org | python3 -
-      
+
       - name: Install dependencies
         run: poetry install
-      
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -74,7 +74,7 @@ jobs:
           draft: false
           prerelease: false
           generate_release_notes: true
-      
+
       - name: Build and publish to PyPI
         run: |
           poetry build
