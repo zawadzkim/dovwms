@@ -57,10 +57,8 @@ theme:
 extra:
   social:
   version:
-    alias: true
     provider: mike
     default: latest
-    command: mike serve
 
 markdown_extensions:
   - toc:
