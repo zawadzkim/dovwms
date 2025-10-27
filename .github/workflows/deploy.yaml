@@ -8,6 +8,8 @@ on:
       - "docs/**"
       - "mkdocs.yml"
       - "dovwms/**/*.py"
+      - "CONTRIBUTING.md"
+      - "README.md"
   workflow_dispatch:
 
 permissions:

@@ -11,60 +11,71 @@ on:
 permissions:
   contents: write
   packages: write
+  id-token: write
 
 jobs:
+  check_version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.extract_version.outputs.version }}
+      should_release: ${{ steps.check_tag.outputs.should_release }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Install Poetry
+        run: curl -sSL https://install.python-poetry.org | python3 -
+      
+      - name: Extract version
+        id: extract_version
+        run: |
+          version=$(poetry version -s)
+          echo "version=$version" >> $GITHUB_OUTPUT
+      
+      - name: Check if tag exists
+        id: check_tag
+        run: |
+          if git rev-parse "v${{ steps.extract_version.outputs.version }}" >/dev/null 2>&1; then
+            echo "Tag v${{ steps.extract_version.outputs.version }} already exists, skipping release"
+            echo "should_release=false" >> $GITHUB_OUTPUT
+          else
+            echo "Tag v${{ steps.extract_version.outputs.version }} does not exist, proceeding with release"
+            echo "should_release=true" >> $GITHUB_OUTPUT
+          fi
+
   release_and_publish:
+    needs: check_version
+    if: needs.check_version.outputs.should_release == 'true'
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          submodules: "recursive"
-
+      
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-
+      
+      - name: Install Poetry
+        run: curl -sSL https://install.python-poetry.org | python3 -
+      
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install poetry
-          poetry install
-
-      - name: Extract version from pyproject.toml
-        id: extract_version
-        run: |
-          version=$(poetry version -s)
-          echo "version=$version" >> $GITHUB_OUTPUT
-
-      - name: Check if tag exists
-        id: check_tag
-        run: |
-          if git rev-parse "v${{ steps.extract_version.outputs.version }}" >/dev/null 2>&1; then
-            echo "tag_exists=true" >> $GITHUB_OUTPUT
-          else
-            echo "tag_exists=false" >> $GITHUB_OUTPUT
-          fi
-
+        run: poetry install
+      
       - name: Create GitHub Release
-        if: steps.check_tag.outputs.tag_exists == 'false'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ steps.extract_version.outputs.version }}
-          name: Release ${{ steps.extract_version.outputs.version }}
+          tag_name: v${{ needs.check_version.outputs.version }}
+          name: Release ${{ needs.check_version.outputs.version }}
           draft: false
           prerelease: false
           generate_release_notes: true
-
-      - name: Build package
-        if: steps.check_tag.outputs.tag_exists == 'false'
-        run: poetry build
-
-      - name: Publish to PyPI
-        if: steps.check_tag.outputs.tag_exists == 'false'
-        env:
-          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_TOKEN }}
+      
+      - name: Build and publish to PyPI
         run: |
+          poetry build
           poetry publish
