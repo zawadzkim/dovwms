@@ -19,7 +19,7 @@ class DOVClient(WMSClient):
         """Lazy-initialize the DOV client.
 
         Connects to the DOV Geoserver WMS service for accessing soil data
-        and related geological information.
+        and related geological information. Open for further expasion.
         """
         super().__init__(base_url="https://www.dov.vlaanderen.be/geoserver")
 
