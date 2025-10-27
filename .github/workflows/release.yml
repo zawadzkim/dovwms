@@ -3,6 +3,7 @@ name: Release
 on:
   push:
     branches:
+      - dev
       - main
       - master
     paths-ignore:
@@ -25,5 +26,7 @@ permissions:
   id-token: write
 
 jobs:
-  release:
+  evaluate_release:
     uses: zawadzkim/shared-gh-workflows/.github/workflows/python-release.yml@main
+    with:
+      publish: ${{ github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' }}
