@@ -27,4 +27,4 @@ jobs:
   docs:
     uses: zawadzkim/shared-gh-workflows/.github/workflows/mkdocs-deploy.yml@main
     with:
-      deploy: ${{ github.ref == 'refs/heads/main' }}
+      deploy: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.event.inputs.force_deploy == true }}
