@@ -14,6 +14,16 @@ on:
       - "tests/**"
       - "pyproject.toml"
       - "poetry.lock"
+  workflow_dispatch:
+    inputs:
+      python-version:
+        description: 'Python version to test with'
+        type: choice
+        options:
+          - '3.11'
+          - '3.12'
+        default: '3.11'
+        required: true
 
 jobs:
   test:

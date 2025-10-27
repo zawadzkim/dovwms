@@ -10,6 +10,13 @@ on:
       - "docs/**"
       - "mkdocs.yml"
       - "dovwms/**/*.py"
+  workflow_dispatch:
+    inputs:
+      force_deploy:
+        description: 'Force deploy to GitHub Pages'
+        type: boolean
+        default: false
+        required: false
 
 permissions:
   contents: read
