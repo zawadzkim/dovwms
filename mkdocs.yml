@@ -32,6 +32,14 @@ theme:
   name: material
   feature:
     tabs: true
+    navigation.tabs: true
+  features:
+    - navigation.tabs
+    - navigation.top
+    - navigation.tracking
+    - navigation.sections
+    - navigation.indexes
+    - navigation.instant
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
@@ -54,6 +62,7 @@ extra:
   version:
     provider: mike
     default: latest
+    command: mike serve
 
 markdown_extensions:
   - toc:
