@@ -5,6 +5,9 @@ site_description: Simple client for DOV WMS services.
 site_author: Mateusz Zawadzki
 edit_uri: edit/main/docs/
 repo_name: zawadzkim/dovwms
+
+# Configure versioning
+use_directory_urls: false  # Required for versioning to work properly
 copyright: Maintained by <a href="https://zawadzkim.com">Mateusz Zawadzki</a>.
 
 nav:
@@ -48,10 +51,9 @@ theme:
     repo: fontawesome/brands/github
 extra:
   social:
-    - icon: fontawesome/brands/github
-      link: https://github.com/zawadzkim/dovwms
-    - icon: fontawesome/brands/python
-      link: https://pypi.org/project/dovwms
+  version:
+    provider: mike
+    default: latest
 
 markdown_extensions:
   - toc:
