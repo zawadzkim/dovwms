@@ -8,12 +8,7 @@ on:
       - "tests/**"
       - "pyproject.toml"
       - "poetry.lock"
-  pull_request:
-    paths:
-      - "dovwms/**"
-      - "tests/**"
-      - "pyproject.toml"
-      - "poetry.lock"
+
   workflow_dispatch:
     inputs:
       python-version:
