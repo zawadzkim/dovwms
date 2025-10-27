@@ -31,6 +31,6 @@ jobs:
       pages: write
       id-token: write
     secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}
+      token: ${{ github.token }}
     with:
       deploy: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.event.inputs.force_deploy == true }}
