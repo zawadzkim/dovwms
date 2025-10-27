@@ -1,10 +1,11 @@
 # dovwms
 
 [![Release](https://img.shields.io/github/v/release/zawadzkim/dovwms)](https://img.shields.io/github/v/release/zawadzkim/dovwms)
-[![Build status](https://img.shields.io/github/actions/workflow/status/zawadzkim/dovwms/main.yml?branch=main)](https://github.com/zawadzkim/dovwms/actions/workflows/main.yml?query=branch%3Amain)
+[![Build status](https://img.shields.io/github/actions/workflow/status/zawadzkim/dovwms/publish-to-pypi.yaml?branch=master)](https://github.com/zawadzkim/dovwms/actions/workflows/publish-to-pypi.yml?query=branch%master)
 [![codecov](https://codecov.io/gh/zawadzkim/dovwms/branch/main/graph/badge.svg)](https://codecov.io/gh/zawadzkim/dovwms)
 [![Commit activity](https://img.shields.io/github/commit-activity/m/zawadzkim/dovwms)](https://img.shields.io/github/commit-activity/m/zawadzkim/dovwms)
 [![License](https://img.shields.io/github/license/zawadzkim/dovwms)](https://img.shields.io/github/license/zawadzkim/dovwms)
+[![DOI](https://zenodo.org/badge/1083879188.svg)](https://doi.org/10.5281/zenodo.17451247)
 
 Simple client for DOV WMS services.
 
