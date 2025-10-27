@@ -11,13 +11,13 @@ on:
   workflow_dispatch:
     inputs:
       version_bump:
-        description: 'Version bump type'
+        description: "Version bump type"
         type: choice
         options:
           - patch
           - minor
           - major
-        default: 'patch'
+        default: "patch"
         required: true
 
 permissions:

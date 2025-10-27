@@ -13,7 +13,7 @@ on:
   workflow_dispatch:
     inputs:
       force_deploy:
-        description: 'Force deploy to GitHub Pages'
+        description: "Force deploy to GitHub Pages"
         type: boolean
         default: false
         required: false
