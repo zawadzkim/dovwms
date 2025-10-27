@@ -8,6 +8,11 @@ on:
     paths-ignore:
       - "docs/**"
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   release:
     uses: zawadzkim/shared-gh-workflows/.github/workflows/python-release.yml@main
