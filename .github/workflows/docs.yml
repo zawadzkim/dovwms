@@ -26,5 +26,9 @@ permissions:
 jobs:
   docs:
     uses: zawadzkim/shared-gh-workflows/.github/workflows/mkdocs-deploy.yml@main
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
     with:
       deploy: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.event.inputs.force_deploy == true }}
