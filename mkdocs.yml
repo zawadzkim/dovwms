@@ -59,8 +59,6 @@ extra:
   version:
     provider: mike
     default: latest
-  analytics:
-    provider: none
 
 markdown_extensions:
   - toc:
