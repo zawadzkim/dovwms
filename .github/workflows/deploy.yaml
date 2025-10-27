@@ -20,7 +20,7 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -43,7 +43,7 @@ jobs:
         run: poetry install --with docs
 
       - name: Setup Pages
-        uses: actions/configure-pages@v5  # Updated to v5
+        uses: actions/configure-pages@v5 # Updated to v5
 
       - name: Build site
         run: poetry run mkdocs build
