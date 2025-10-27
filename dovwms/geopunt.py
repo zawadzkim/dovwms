@@ -22,6 +22,7 @@ class GeopuntClient(WMSClient):
         The parsing method depends on the content type and query type:
         - For elevation: Parses semicolon-separated response for elevation value
         - For other queries: Returns raw content for specific handling.
+        - One substantial change.
 
         Args:
             content: Raw response content

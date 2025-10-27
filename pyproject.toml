@@ -1,6 +1,6 @@
 [project]
 name = "dovwms"
-version = "0.0.5"
+version = "0.0.6"
 description = "Simple client for DOV WMS services."
 authors = [{name = "Mateusz Zawadzki", email = "zawadzkimat@outlook.com"}]
 repository = "https://github.com/zawadzkim/dovwms"
