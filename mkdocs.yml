@@ -1,18 +1,18 @@
 site_name: dovwms
 repo_url: https://github.com/zawadzkim/dovwms
-site_url: https://zawadzkim.github.io/dovwms
+site_url: https://zawadzkim.github.io/dovwms/
 site_description: Simple client for DOV WMS services.
 site_author: Mateusz Zawadzki
 edit_uri: edit/main/docs/
 repo_name: zawadzkim/dovwms
 
-# Configure versioning
-use_directory_urls: false # Required for versioning to work properly
+use_directory_urls: false
 copyright: Maintained by <a href="https://zawadzkim.com">Mateusz Zawadzki</a>.
 
 nav:
   - Home: index.md
   - Modules: modules.md
+  - Contributing: contributing.md
 plugins:
   - search
   - autorefs
@@ -20,7 +20,7 @@ plugins:
   - mkdocstrings:
       handlers:
         python:
-          paths: [..] # This tells mkdocstrings to look in the parent directory
+          paths: [..]
           options:
             show_submodules: true
             show_symbol_type_heading: true
@@ -57,6 +57,7 @@ theme:
 extra:
   social:
   version:
+    alias: true
     provider: mike
     default: latest
     command: mike serve
