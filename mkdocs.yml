@@ -7,7 +7,7 @@ edit_uri: edit/main/docs/
 repo_name: zawadzkim/dovwms
 
 # Configure versioning
-use_directory_urls: false  # Required for versioning to work properly
+use_directory_urls: false # Required for versioning to work properly
 copyright: Maintained by <a href="https://zawadzkim.com">Mateusz Zawadzki</a>.
 
 nav:
